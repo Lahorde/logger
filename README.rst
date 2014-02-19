@@ -15,7 +15,7 @@ Implementation supported platform
 Code snippet
 ------------
 
-```c
+```
     #include <logger.h>
     
     #define LOG_LEVEL LOG_LEVEL_DEBUG
