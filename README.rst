@@ -15,14 +15,14 @@ Implementation supported platform
 Code snippet
 ------------
 
-```
-#include <logger.h>
-    
-#define LOG_LEVEL LOG_LEVEL_DEBUG
+::
 
-void setup()
-{
-	LOG_INIT_STATIC_SPEED(LOG_LEVEL);
-	LOG_INFO(F("application started ! \n"));
-}
-```
+  #include <logger.h>
+    
+  #define LOG_LEVEL LOG_LEVEL_DEBUG
+
+  void setup()
+  {
+	  LOG_INIT_STATIC_SPEED(LOG_LEVEL);
+	  LOG_INFO(F("application started ! \n"));
+  }
