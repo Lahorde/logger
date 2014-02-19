@@ -15,7 +15,7 @@ Implementation supported platform
 Code snippet
 ------------
 
-::
+```c
     #include <logger.h>
     
     #define LOG_LEVEL LOG_LEVEL_DEBUG
@@ -24,4 +24,5 @@ Code snippet
     {
 	LOG_INIT_STATIC_SPEED(LOG_LEVEL);
 	LOG_INFO(F("application started \n"));
-   } 
+   }
+```
