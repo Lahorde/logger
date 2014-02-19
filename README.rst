@@ -16,13 +16,13 @@ Code snippet
 ------------
 
 ```
-    #include <logger.h>
+#include <logger.h>
     
-    #define LOG_LEVEL LOG_LEVEL_DEBUG
+#define LOG_LEVEL LOG_LEVEL_DEBUG
 
-    void setup()
-    {
+void setup()
+{
 	LOG_INIT_STATIC_SPEED(LOG_LEVEL);
-	LOG_INFO(F("application started \n"));
-   }
+	LOG_INFO(F("application started ! \n"));
+}
 ```
