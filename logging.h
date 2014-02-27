@@ -47,9 +47,11 @@
 
 #ifndef LOGGING_H
 #define LOGGING_H
+
 #include <inttypes.h>
 #include <stdarg.h>
 #include <WString.h>
+#include "Stream.h"
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "Arduino.h"
 #else
@@ -60,7 +62,6 @@ extern "C" {
   #include <avr/io.h>
 }
 
-
 #define LOG_LEVEL_NOOUTPUT 0
 #define LOG_LEVEL_ERRORS 1
 #define LOG_LEVEL_INFOS 2
@@ -70,13 +71,10 @@ extern "C" {
 #define CR "\r\n"
 #define LOGGING_VERSION 1
 
-
-#define DEFAULT_LOG_SPEED 9600
-
 class Logging {
 private:
+	Stream*  _p_output_stream;
     int _level;
-    long _baud;
 public:
     /*! 
 	 * default Constructor
@@ -85,19 +83,14 @@ public:
 	
     /** 
 	* Initializing, must be called as first.
+	* Given stream must have been initialized.
+	* e.g : for serial begin() method must have been called
 	* \param void
 	* \return void
 	*
 	*/
-	void Init(int level);
+	void Init(int level = LOG_LEVEL_INFOS, Stream*  _p_output_stream = &Serial);
 
-    /**
-	* Initializing, must be called as first.
-	* \param void
-	* \return void
-	*
-	*/
-	void Init(int level, long baud);
 	
     /**
 	* Output an error message. Output message contains

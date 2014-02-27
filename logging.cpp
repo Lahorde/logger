@@ -14,142 +14,130 @@
 
 #include "logging.h"
 
-#define LOG_ENABLED
-
-void Logging::Init(int level){
-    _level = constrain(level,LOG_LEVEL_NOOUTPUT,LOG_LEVEL_VERBOSE);
-    _baud = DEFAULT_LOG_SPEED;
-    Serial.begin(DEFAULT_LOG_SPEED);
+void Logging::Init(int level, Stream*  arg_p_output_stream)
+{
+	_p_output_stream = arg_p_output_stream;
+	_level = constrain(level,LOG_LEVEL_NOOUTPUT,LOG_LEVEL_VERBOSE);
 }
-
-/* Serial speed cannot be changed at run time on ATtiny */
-#if defined(__AVR_ATtiny24__) || defined(__AVR_ATtiny44__) || defined(__AVR_ATtiny84__) || defined(__AVR_ATtiny25__) || defined(__AVR_ATtiny45__) || defined(__AVR_ATtiny85__)
-#else
-void Logging::Init(int level, long baud){
-    _level = constrain(level,LOG_LEVEL_NOOUTPUT,LOG_LEVEL_VERBOSE);
-    _baud = baud;
-    Serial.begin(_baud);
-}
-#endif
 
 void Logging::Error(char* msg, ...){
-    if (LOG_LEVEL_ERRORS <= _level) {   
+	if (LOG_LEVEL_ERRORS <= _level) {
 		print ("ERROR: ",0);
-        va_list args;
-        va_start(args, msg);
-        print(msg,args);
-    }
+		va_list args;
+		va_start(args, msg);
+		print(msg,args);
+	}
 }
 
 void Logging::Error(const __FlashStringHelper * msg, ...){
-    if (LOG_LEVEL_ERRORS <= _level) {
+	if (LOG_LEVEL_ERRORS <= _level) {
 		print ("ERROR: ",0);
-        va_list args;
-        va_start(args, msg);
-        print(msg,args);
-    }
+		va_list args;
+		va_start(args, msg);
+		print(msg,args);
+	}
 }
 
 void Logging::Info(char* msg, ...){
-    if (LOG_LEVEL_INFOS <= _level) {
-        va_list args;
-        va_start(args, msg);
-        print(msg,args);
-    }
+	if (LOG_LEVEL_INFOS <= _level) {
+		va_list args;
+		va_start(args, msg);
+		print(msg,args);
+	}
 }
 
 void Logging::Info(const __FlashStringHelper * msg, ...){
-    if (LOG_LEVEL_INFOS <= _level) {
-        va_list args;
-        va_start(args, msg);
-        print(msg,args);
-    }
+	if (LOG_LEVEL_INFOS <= _level) {
+		va_list args;
+		va_start(args, msg);
+		print(msg,args);
+	}
 }
 
 void Logging::Debug(char* msg, ...){
-    if (LOG_LEVEL_DEBUG <= _level) {
-        va_list args;
-        va_start(args, msg);
-        print(msg,args);
-    }
+	if (LOG_LEVEL_DEBUG <= _level) {
+		va_list args;
+		va_start(args, msg);
+		print(msg,args);
+	}
 }
 
 void Logging::Debug(const __FlashStringHelper * msg, ...){
-    if (LOG_LEVEL_INFOS <= _level) {
-        va_list args;
-        va_start(args, msg);
-        print(msg,args);
-    }
+	if (LOG_LEVEL_INFOS <= _level) {
+		va_list args;
+		va_start(args, msg);
+		print(msg,args);
+	}
 }
 
 
 void Logging::Verbose(char* msg, ...){
-    if (LOG_LEVEL_VERBOSE <= _level) {
-        va_list args;
-        va_start(args, msg);
-        print(msg,args);
-    }
+	if (LOG_LEVEL_VERBOSE <= _level) {
+		va_list args;
+		va_start(args, msg);
+		print(msg,args);
+	}
 }
 
 void Logging::Verbose(const __FlashStringHelper * msg, ...){
-    if (LOG_LEVEL_INFOS <= _level) {
-        va_list args;
-        va_start(args, msg);
-        print(msg,args);
-    }
+	if (LOG_LEVEL_INFOS <= _level) {
+		va_list args;
+		va_start(args, msg);
+		print(msg,args);
+	}
 }
 
 void Logging::printArg(char arg_s8Char, va_list& args) {
 	if (arg_s8Char == '%') {
-		Serial.print(arg_s8Char);
+		_p_output_stream->print(arg_s8Char);
 	}
 	if( arg_s8Char == 's' ) {
 		register char *s = (char *)va_arg( args, int );
-		Serial.print(s);
+		_p_output_stream->print(s);
 	}
 	if( arg_s8Char == 'd' || arg_s8Char == 'i') {
-		Serial.print(va_arg( args, int ),DEC);
+		_p_output_stream->print(va_arg( args, int ),DEC);
 	}
 	if( arg_s8Char == 'x' ) {
-		Serial.print(va_arg( args, int ),HEX);
+		_p_output_stream->print(va_arg( args, int ),HEX);
 	}
 	if( arg_s8Char == 'X' ) {
-		Serial.print("0x");
-		Serial.print(va_arg( args, int ),HEX);
+		_p_output_stream->print("0x");
+		_p_output_stream->print(va_arg( args, int ),HEX);
 	}
 	if( arg_s8Char == 'b' ) {
-		Serial.print(va_arg( args, int ),BIN);
+		_p_output_stream->print(va_arg( args, int ),BIN);
 	}
 	if( arg_s8Char == 'B' ) {
-		Serial.print("0b");
-		Serial.print(va_arg( args, int ),BIN);
+		_p_output_stream->print("0b");
+		_p_output_stream->print(va_arg( args, int ),BIN);
 	}
 	if( arg_s8Char == 'l' ) {
-		Serial.print(va_arg( args, long ),DEC);
+		_p_output_stream->print(va_arg( args, long ),DEC);
 	}
 
 	if( arg_s8Char == 'c' ) {
 		char s = (char)va_arg( args, int );
-		Serial.print(s);
+		_p_output_stream->print(s);
 	}
 	if( arg_s8Char == 't' ) {
 		if (va_arg( args, int ) == 1) {
-			Serial.print("T");
+			_p_output_stream->print("T");
 		}
 		else {
-			Serial.print("F");
+			_p_output_stream->print("F");
 		}
 	}
 	if( arg_s8Char == 'T' ) {
 		if (va_arg( args, int ) == 1) {
-			Serial.print("true");
+			_p_output_stream->print("true");
 		}
 		else {
-			Serial.print("false");
+			_p_output_stream->print("false");
 		}
 	}
 	if( arg_s8Char == 'f' ) {
-		Serial.print((float) va_arg( args, double ));
+		_p_output_stream->print((float) va_arg( args, double ));
 	}
 }
 
@@ -167,31 +155,31 @@ void Logging::print(const __FlashStringHelper * arg_ps8FlashString, va_list args
 		if (loc_s8CurrentChar == '%') {
 			loc_s8CurrentChar = pgm_read_byte(loc_ps8CurrByte++);
 			if (loc_s8CurrentChar == '\0') break;
-		    printArg(loc_s8CurrentChar, args);
-		 }
+			printArg(loc_s8CurrentChar, args);
+		}
 		else
 		{
-			Serial.print(loc_s8CurrentChar);
+			_p_output_stream->print(loc_s8CurrentChar);
 		}
 	}
-	Serial.flush();
+	_p_output_stream->flush();
 }
 
- void Logging::print(const char *format, va_list args) {
-    //
-    // loop through format string
-    for (; *format != 0; ++format) {
-        if (*format == '%') {
-            ++format;
-            if (*format == '\0') break;
-            printArg(*format, args);
-        }
-        else
-        {
-        	Serial.print(*format);
-        }
-    }
-    Serial.flush();
- }
+void Logging::print(const char *format, va_list args) {
+	//
+	// loop through format string
+	for (; *format != 0; ++format) {
+		if (*format == '%') {
+			++format;
+			if (*format == '\0') break;
+			printArg(*format, args);
+		}
+		else
+		{
+			_p_output_stream->print(*format);
+		}
+	}
+	_p_output_stream->flush();
+}
 
- Logging Log = Logging();
+Logging Log = Logging();
