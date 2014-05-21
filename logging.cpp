@@ -142,10 +142,8 @@ void Logging::printArg(char arg_s8Char, va_list& args) {
 }
 
 void Logging::print(const __FlashStringHelper * arg_ps8FlashString, va_list args) {
-	const char PROGMEM *loc_ps8CurrByte = (const char PROGMEM *)arg_ps8FlashString;
-
+	const char *loc_ps8CurrByte = (const char *)arg_ps8FlashString;
 	char loc_s8CurrentChar;
-	loc_ps8CurrByte = (const char PROGMEM *)arg_ps8FlashString;
 
 	// loop through format string
 	while(1)
