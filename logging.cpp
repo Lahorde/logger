@@ -63,7 +63,7 @@ void Logging::Debug(char* msg, ...){
 }
 
 void Logging::Debug(const __FlashStringHelper * msg, ...){
-	if (LOG_LEVEL_INFOS <= _level) {
+	if (LOG_LEVEL_DEBUG <= _level) {
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
@@ -80,7 +80,7 @@ void Logging::Verbose(char* msg, ...){
 }
 
 void Logging::Verbose(const __FlashStringHelper * msg, ...){
-	if (LOG_LEVEL_INFOS <= _level) {
+	if (LOG_LEVEL_VERBOSE <= _level) {
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
@@ -137,7 +137,7 @@ void Logging::printArg(char arg_s8Char, va_list& args) {
 		}
 	}
 	if( arg_s8Char == 'f' ) {
-		_p_output_stream->print((float) va_arg( args, double ));
+		_p_output_stream->print((float) va_arg( args, double ), 8);
 	}
 }
 
