@@ -98,6 +98,9 @@ void Logging::printArg(char arg_s8Char, va_list& args) {
 	if( arg_s8Char == 'd' || arg_s8Char == 'i') {
 		_p_output_stream->print(va_arg( args, int ),DEC);
 	}
+	if( arg_s8Char == 'u') {
+		_p_output_stream->print((unsigned int) va_arg( args, int ),DEC);
+	}
 	if( arg_s8Char == 'x' ) {
 		_p_output_stream->print(va_arg( args, int ),HEX);
 	}
