@@ -105,6 +105,33 @@ public:
     void Error( const __FlashStringHelper * msg, ...);
 
     /**
+	* Output an error message. Output message contains
+	* ERROR: followed by error id, file, line locations
+	* Error messages are printed out, at every loglevel
+	* except 0 ;-)
+	* \param errorId id of error according to file location
+	* \param file where occurred error id of error according to file location
+	* \param line in file where occurred error
+	* \return void
+	*/
+    void Error(char errorId, const char * file, int line);
+
+    /**
+	* Output an error message. Output message contains
+	* ERROR: followed by error id, file, line locations
+	* and error arguments
+	* Error messages are printed out, at every loglevel
+	* except 0 ;-)
+	* \param errorId id of error according to file location
+	* \param file where occurred error id of error according to file location
+	* \param line in file where occurred error
+	* \param argsFormat argument format
+	* \param ... any number of variables
+	* \return void
+	*/
+    void Error(char errorId, const char * file, int line, const __FlashStringHelper * argsFormat, ...);
+
+    /**
 	* Output an info message. Output message contains
 	* Info messages are printed out at l
 	* loglevels >= LOG_LEVEL_INFOS
@@ -116,6 +143,9 @@ public:
 
    void Info(char* msg, ...);
    void Info( const __FlashStringHelper * msg, ...);
+   void InfoLn( const __FlashStringHelper * msg, ...);
+   void InfoStr(const __FlashStringHelper * msg);
+   void InfoStrLn(const __FlashStringHelper * msg);
 	
     /**
 	* Output an debug message. Output message contains
@@ -129,6 +159,9 @@ public:
 
     void Debug(char* msg, ...);
     void Debug( const __FlashStringHelper * msg, ...);
+    void DebugLn( const __FlashStringHelper * msg, ...);
+    void DebugStr(const __FlashStringHelper * msg);
+    void DebugStrLn(const __FlashStringHelper * msg);
 	
     /**
 	* Output an verbose message. Output message contains
@@ -142,6 +175,9 @@ public:
 
     void Verbose(char* msg, ...);   
     void Verbose( const __FlashStringHelper * msg, ...);
+    void VerboseLn( const __FlashStringHelper * msg, ...);
+    void VerboseStr(const __FlashStringHelper * msg);
+    void VerboseStrLn(const __FlashStringHelper * msg);
 
     
 private:

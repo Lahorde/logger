@@ -13,6 +13,10 @@
  *****************************************************************************/
 
 #include "logging.h"
+static const char* ERROR_STR = "ERROR: ";
+static const char* BL = "\n";
+static const char* IN_FILE = "-file: ";
+static const char* LINE = "-L";
 
 void Logging::Init(int level, Stream*  arg_p_output_stream)
 {
@@ -22,7 +26,7 @@ void Logging::Init(int level, Stream*  arg_p_output_stream)
 
 void Logging::Error(char* msg, ...){
 	if (LOG_LEVEL_ERRORS <= _level) {
-		print ("ERROR: ",0);
+		_p_output_stream->print (ERROR_STR);
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
@@ -31,13 +35,45 @@ void Logging::Error(char* msg, ...){
 
 void Logging::Error(const __FlashStringHelper * msg, ...){
 	if (LOG_LEVEL_ERRORS <= _level) {
-		print ("ERROR: ",0);
+		_p_output_stream->print (ERROR_STR);
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
+		_p_output_stream->print(BL);
+		_p_output_stream->flush();
 	}
 }
 
+void Logging::Error(char errorId, const char * file, int line){
+	if (LOG_LEVEL_ERRORS <= _level) {
+		_p_output_stream->print (ERROR_STR);
+		_p_output_stream->print(F("id = "));
+		_p_output_stream->print((int)errorId, 10);
+		_p_output_stream->print(IN_FILE);
+		_p_output_stream->print(file);
+		_p_output_stream->print(LINE);
+		_p_output_stream->print(line);
+		_p_output_stream->print(BL);
+		_p_output_stream->flush();
+	}
+}
+
+void Logging::Error(char errorId, const char * file, int line, const __FlashStringHelper * argsFormat, ...){
+	if (LOG_LEVEL_ERRORS <= _level) {
+		_p_output_stream->print (ERROR_STR);
+		_p_output_stream->print(F("id = "));
+		_p_output_stream->print((int)errorId, 10);
+		_p_output_stream->print(IN_FILE);
+		_p_output_stream->print(file);
+		_p_output_stream->print(LINE);
+		_p_output_stream->print(line);
+		va_list args;
+		va_start(args, argsFormat);
+		print(argsFormat,args);
+		_p_output_stream->print(BL);
+		_p_output_stream->flush();
+	}
+}
 void Logging::Info(char* msg, ...){
 	if (LOG_LEVEL_INFOS <= _level) {
 		va_list args;
@@ -54,11 +90,46 @@ void Logging::Info(const __FlashStringHelper * msg, ...){
 	}
 }
 
+void Logging::InfoLn(const __FlashStringHelper * msg, ...){
+	if (LOG_LEVEL_INFOS <= _level) {
+		va_list args;
+		va_start(args, msg);
+		print(msg,args);
+		_p_output_stream->print(BL);
+		_p_output_stream->flush();
+	}
+}
+
+void Logging::InfoStr(const __FlashStringHelper * msg){
+	if (LOG_LEVEL_INFOS <= _level) {
+		_p_output_stream->print(msg);
+		_p_output_stream->flush();
+	}
+}
+
+void Logging::InfoStrLn(const __FlashStringHelper * msg){
+	if (LOG_LEVEL_INFOS <= _level) {
+		_p_output_stream->print(msg);
+		_p_output_stream->print(BL);
+		_p_output_stream->flush();
+	}
+}
+
 void Logging::Debug(char* msg, ...){
 	if (LOG_LEVEL_DEBUG <= _level) {
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
+	}
+}
+
+void Logging::DebugLn(const __FlashStringHelper * msg, ...){
+	if (LOG_LEVEL_DEBUG <= _level) {
+		va_list args;
+		va_start(args, msg);
+		print(msg,args);
+		_p_output_stream->print(BL);
+		_p_output_stream->flush();
 	}
 }
 
@@ -70,6 +141,20 @@ void Logging::Debug(const __FlashStringHelper * msg, ...){
 	}
 }
 
+void Logging::DebugStr(const __FlashStringHelper * msg){
+	if (LOG_LEVEL_DEBUG <= _level) {
+		_p_output_stream->print(msg);
+		_p_output_stream->flush();
+	}
+}
+
+void Logging::DebugStrLn(const __FlashStringHelper * msg){
+	if (LOG_LEVEL_DEBUG <= _level) {
+		_p_output_stream->print(msg);
+		_p_output_stream->print(BL);
+		_p_output_stream->flush();
+	}
+}
 
 void Logging::Verbose(char* msg, ...){
 	if (LOG_LEVEL_VERBOSE <= _level) {
@@ -84,6 +169,31 @@ void Logging::Verbose(const __FlashStringHelper * msg, ...){
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
+	}
+}
+
+void Logging::VerboseLn(const __FlashStringHelper * msg, ...){
+	if (LOG_LEVEL_VERBOSE <= _level) {
+		va_list args;
+		va_start(args, msg);
+		print(msg,args);
+		_p_output_stream->print(BL);
+		_p_output_stream->flush();
+	}
+}
+
+void Logging::VerboseStr(const __FlashStringHelper * msg){
+	if (LOG_LEVEL_VERBOSE <= _level) {
+		_p_output_stream->print(msg);
+		_p_output_stream->flush();
+	}
+}
+
+void Logging::VerboseStrLn(const __FlashStringHelper * msg){
+	if (LOG_LEVEL_VERBOSE <= _level) {
+		_p_output_stream->print(msg);
+		_p_output_stream->print(BL);
+		_p_output_stream->flush();
 	}
 }
 
