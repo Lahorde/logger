@@ -114,7 +114,7 @@ public:
 	* \param line in file where occurred error
 	* \return void
 	*/
-    void Error(char errorId, const char * file, int line);
+    void Error(char errorId, const __FlashStringHelper *, int line);
 
     /**
 	* Output an error message. Output message contains
@@ -129,7 +129,7 @@ public:
 	* \param ... any number of variables
 	* \return void
 	*/
-    void Error(char errorId, const char * file, int line, const __FlashStringHelper * argsFormat, ...);
+    void Error(char errorId, const __FlashStringHelper *, int line, const __FlashStringHelper * argsFormat, ...);
 
     /**
 	* Output an info message. Output message contains

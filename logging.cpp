@@ -44,7 +44,7 @@ void Logging::Error(const __FlashStringHelper * msg, ...){
 	}
 }
 
-void Logging::Error(char errorId, const char * file, int line){
+void Logging::Error(char errorId, const __FlashStringHelper * file, int line){
 	if (LOG_LEVEL_ERRORS <= _level) {
 		_p_output_stream->print (ERROR_STR);
 		_p_output_stream->print(F("id = "));
@@ -58,7 +58,7 @@ void Logging::Error(char errorId, const char * file, int line){
 	}
 }
 
-void Logging::Error(char errorId, const char * file, int line, const __FlashStringHelper * argsFormat, ...){
+void Logging::Error(char errorId, const __FlashStringHelper * file, int line, const __FlashStringHelper * argsFormat, ...){
 	if (LOG_LEVEL_ERRORS <= _level) {
 		_p_output_stream->print (ERROR_STR);
 		_p_output_stream->print(F("id = "));
