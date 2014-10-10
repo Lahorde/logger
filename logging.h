@@ -81,6 +81,25 @@ public:
 	 */
     Logging(){} ;
 	
+
+    /**
+     * Assert given expression. Abort in case of failure
+     * @param func
+     * @param file
+     * @param lineno
+     * @param failedexpr
+     */
+    void Assert(const char * func, const __FlashStringHelper * file, int lineno, const __FlashStringHelper *expr);
+
+    /**
+     * Assert given expression. Abort in case of failure
+     * @param func
+     * @param file
+     * @param lineno
+     * @param failedexpr
+     */
+    void Assert(const char * func, const char * file, int lineno, const char *expr);
+
     /** 
 	* Initializing, must be called as first.
 	* Given stream must have been initialized.

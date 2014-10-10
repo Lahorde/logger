@@ -22,27 +22,24 @@
 	#warning "No log level defined "
 #endif
 
-
-#if (LOG_LEVEL > LOG_LEVEL_NOOUTPUT)
-	#define	 LOG_INIT(level) Log.Init(level)
+#if (LOG_LEVEL >= LOG_LEVEL_NOOUTPUT)
+    #define	 LOG_INIT(level) Log.Init(level)
+    #define	 LOG_INIT_STREAM(level, stream) Log.Init(level, stream)
+    #define	 ASSERT(expr) ((expr) ? (void)0 : Log.Assert(__func__, F(__FILE__), __LINE__, F(#expr)))
 #else
-	#define	 LOG_INIT(level)
-#endif
-
-#if (LOG_LEVEL > LOG_LEVEL_NOOUTPUT)
-	#define	 LOG_INIT_STREAM(level, stream) Log.Init(level, stream)
-#else
-	#define	 LOG_INIT_STREAM(level, stream)
+    #define	 LOG_INIT(level)
+    #define	 LOG_INIT_STREAM(level, stream)
+    #define	 ASSERT(expr)
 #endif
 
 #if (LOG_LEVEL >= LOG_LEVEL_ERRORS)
 	#define LOG_ERROR(msg, 	arguments...) Log.Error(msg, ## arguments)
-	#define LOG_ERROR_ID_ARGS(errorId, file, line, argsFormat, arguments...) Log.Error(errorId, file, line, argsFormat, ## arguments)
-	#define LOG_ERROR_ID(errorId, file, line) Log.Error(errorId, file, line)
+	#define LOG_ERROR_ID_ARGS(errorId, argsFormat, arguments...) Log.Error(errorId, F(__FILE__), __LINE__, argsFormat, ## arguments)
+	#define LOG_ERROR_ID(errorId) Log.Error(errorId, F(__FILE__), __LINE__)
 #else
 	#define LOG_ERROR(msg, arguments...)
-    #define LOG_ERROR_ID(errorId, file, line)
-	#define LOG_ERROR_ID_ARGS(errorId, file, line, argsFormat, arguments...)
+    #define LOG_ERROR_ID(errorId)
+	#define LOG_ERROR_ID_ARGS(errorId, argsFormat, arguments...)
 #endif
 
 #if (LOG_LEVEL >= LOG_LEVEL_INFOS)

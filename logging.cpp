@@ -13,15 +13,67 @@
  *****************************************************************************/
 
 #include "logging.h"
+#include <assert.h>
+
 static const char* ERROR_STR = "ERROR: ";
 static const char* BL = "\n";
 static const char* IN_FILE = "-file: ";
 static const char* LINE = "-L";
 
+extern void __assert(const char *__func, const char *__file,
+		     int __lineno, const char *__sexp);
+
 void Logging::Init(int level, Stream*  arg_p_output_stream)
 {
 	_p_output_stream = arg_p_output_stream;
 	_level = constrain(level,LOG_LEVEL_NOOUTPUT,LOG_LEVEL_VERBOSE);
+}
+
+/**
+ * MAP assert on Logging::Assert
+ * @param __func
+ * @param __file
+ * @param __lineno
+ * @param __sexp
+ */
+void __assert(const char *__func, const char *__file,
+	     int __lineno, const char *__sexp)
+{
+	Log.Assert(__func, __file, __lineno, __sexp);
+}
+
+void Logging::Assert(const char * func, const char * file, int lineno, const char *expr)
+{
+	 // transmit diagnostic informations through serial link.
+	_p_output_stream->print(F("ASSERTION FAILED :"));
+	_p_output_stream->print(expr);
+	_p_output_stream->print(BL);
+	_p_output_stream->print(F("At "));
+	_p_output_stream->print(func);
+	_p_output_stream->print(F(" in "));
+	_p_output_stream->print(file);
+	_p_output_stream->print(F(" l"));
+	_p_output_stream->print(lineno, DEC);
+	_p_output_stream->flush();
+	// abort program execution.
+	abort();
+}
+
+void Logging::Assert(const  char * func, const __FlashStringHelper * file, int lineno, const __FlashStringHelper *expr)
+{
+	 // transmit diagnostic informations through serial link.
+	_p_output_stream->print(F("ASSERTION FAILED : "));
+	_p_output_stream->print(expr);
+	_p_output_stream->print(BL);
+	_p_output_stream->print(F("At "));
+	_p_output_stream->print(func);
+	_p_output_stream->print(F(" in "));
+	_p_output_stream->print(file);
+	_p_output_stream->print(F(" l"));
+	_p_output_stream->print(lineno, DEC);
+	_p_output_stream->flush();
+	// abort program execution.
+	abort();
 }
 
 void Logging::Error(char* msg, ...){
