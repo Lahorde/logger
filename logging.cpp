@@ -17,8 +17,8 @@
 
 static const char* ERROR_STR = "ERROR: ";
 static const char* BL = "\n";
-static const char* IN_FILE = "-file: ";
-static const char* LINE = "-L";
+static const char* IN_FILE = "\nfile: ";
+static const char* LINE = "-l";
 
 extern void __assert(const char *__func, const char *__file,
 		     int __lineno, const char *__sexp);
@@ -119,6 +119,7 @@ void Logging::Error(char errorId, const __FlashStringHelper * file, int line, co
 		_p_output_stream->print(file);
 		_p_output_stream->print(LINE);
 		_p_output_stream->print(line);
+		_p_output_stream->print(BL);
 		va_list args;
 		va_start(args, argsFormat);
 		print(argsFormat,args);
@@ -314,7 +315,7 @@ void Logging::print(const __FlashStringHelper * arg_ps8FlashString, va_list args
 	while(1)
 	{
 		loc_s8CurrentChar = pgm_read_byte(loc_ps8CurrByte++);
-		if (loc_s8CurrentChar == 0) break;
+		if (loc_s8CurrentChar == '\0') break;
 		if (loc_s8CurrentChar == '%') {
 			loc_s8CurrentChar = pgm_read_byte(loc_ps8CurrByte++);
 			if (loc_s8CurrentChar == '\0') break;
