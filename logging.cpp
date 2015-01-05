@@ -82,6 +82,8 @@ void Logging::Error(char* msg, ...){
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
+		_p_output_stream->print(BL);
+		_p_output_stream->flush();
 	}
 }
 
