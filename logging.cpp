@@ -52,7 +52,7 @@ void Logging::Assert(const char * func, const char * file, int lineno, const cha
 	_p_output_stream->print(func);
 	_p_output_stream->print(F(" in "));
 	_p_output_stream->print(file);
-	_p_output_stream->print(F(" l"));
+	_p_output_stream->print(F(" l."));
 	_p_output_stream->print(lineno, DEC);
 	_p_output_stream->flush();
 	// abort program execution.
@@ -69,7 +69,7 @@ void Logging::Assert(const  char * func, const __FlashStringHelper * file, int l
 	_p_output_stream->print(func);
 	_p_output_stream->print(F(" in "));
 	_p_output_stream->print(file);
-	_p_output_stream->print(F(" l"));
+	_p_output_stream->print(F(" l."));
 	_p_output_stream->print(lineno, DEC);
 	_p_output_stream->flush();
 	// abort program execution.
