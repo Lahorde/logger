@@ -56,7 +56,7 @@
 
 #if (LOG_LEVEL >= LOG_LEVEL_DEBUG)
 	#define LOG_DEBUG(msg, 	arguments...) Log.Debug(msg, ## arguments)
-	#define LOG_DEBUG_LN(msg, 	arguments...) Log.DebugLn(msg, 	arguments...)
+	#define LOG_DEBUG_LN(msg, 	arguments...) Log.DebugLn(msg, 	##arguments)
 	#define LOG_DEBUG_STR(msg) Log.DebugStr(msg)
 	#define LOG_DEBUG_STR_LN(msg) Log.DebugStrLn(msg)
 #else

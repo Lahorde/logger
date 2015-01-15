@@ -57,10 +57,6 @@
 #else
 	#include "WProgram.h"
 #endif
-//#include "pins_arduino.h"
-extern "C" {
-  #include <avr/io.h>
-}
 
 #define LOG_LEVEL_NOOUTPUT 0
 #define LOG_LEVEL_ERRORS 1
@@ -74,12 +70,12 @@ extern "C" {
 class Logging {
 private:
 	Stream*  _p_output_stream;
-    int _level;
+    uint8_t _u8_logLevel;
 public:
     /*! 
 	 * default Constructor
 	 */
-    Logging(){} ;
+    Logging(): _p_output_stream(&Serial), _u8_logLevel(LOG_LEVEL_NOOUTPUT){} ;
 	
 
     /**
@@ -89,7 +85,7 @@ public:
      * @param lineno
      * @param failedexpr
      */
-    void Assert(const char * func, const __FlashStringHelper * file, int lineno, const __FlashStringHelper *expr);
+    void Assert(const char func[], const __FlashStringHelper * file, int lineno, const __FlashStringHelper *expr);
 
     /**
      * Assert given expression. Abort in case of failure
@@ -98,7 +94,7 @@ public:
      * @param lineno
      * @param failedexpr
      */
-    void Assert(const char * func, const char * file, int lineno, const char *expr);
+    void Assert(const char func[], const char file[], int lineno, const char expr[]);
 
     /** 
 	* Initializing, must be called as first.
@@ -120,7 +116,7 @@ public:
 	* \param ... any number of variables
 	* \return void
 	*/
-    void Error(char* msg, ...);
+    void Error(const char msg[], ...);
     void Error( const __FlashStringHelper * msg, ...);
 
     /**
@@ -160,7 +156,7 @@ public:
 	* \return void
 	*/
 
-   void Info(char* msg, ...);
+   void Info(const char msg[], ...);
    void Info( const __FlashStringHelper * msg, ...);
    void InfoLn( const __FlashStringHelper * msg, ...);
    void InfoStr(const __FlashStringHelper * msg);
@@ -176,7 +172,7 @@ public:
 	* \return void
 	*/
 
-    void Debug(char* msg, ...);
+    void Debug(const char msg[], ...);
     void Debug( const __FlashStringHelper * msg, ...);
     void DebugLn( const __FlashStringHelper * msg, ...);
     void DebugStr(const __FlashStringHelper * msg);
@@ -192,7 +188,7 @@ public:
 	* \return void
 	*/
 
-    void Verbose(char* msg, ...);   
+    void Verbose(const char msg[], ...);
     void Verbose( const __FlashStringHelper * msg, ...);
     void VerboseLn( const __FlashStringHelper * msg, ...);
     void VerboseStr(const __FlashStringHelper * msg);
@@ -200,7 +196,7 @@ public:
 
     
 private:
-    void print(const char *format, va_list args);
+    void print(const char format[], va_list args);
     void print(const __FlashStringHelper * arg_ps8FlashFormatfor, va_list args);
     void printArg(char arg_s8Char, va_list& args);
 };

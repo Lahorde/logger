@@ -26,7 +26,7 @@ extern void __assert(const char *__func, const char *__file,
 void Logging::Init(int level, Stream*  arg_p_output_stream)
 {
 	_p_output_stream = arg_p_output_stream;
-	_level = constrain(level,LOG_LEVEL_NOOUTPUT,LOG_LEVEL_VERBOSE);
+	_u8_logLevel = constrain(level,LOG_LEVEL_NOOUTPUT,LOG_LEVEL_VERBOSE);
 }
 
 /**
@@ -42,7 +42,7 @@ void __assert(const char *__func, const char *__file,
 	Log.Assert(__func, __file, __lineno, __sexp);
 }
 
-void Logging::Assert(const char * func, const char * file, int lineno, const char *expr)
+void Logging::Assert(const char func[], const char file[], int lineno, const char expr[])
 {
 	 // transmit diagnostic informations through serial link.
 	_p_output_stream->print(F("ASSERTION FAILED :"));
@@ -59,7 +59,7 @@ void Logging::Assert(const char * func, const char * file, int lineno, const cha
 	abort();
 }
 
-void Logging::Assert(const  char * func, const __FlashStringHelper * file, int lineno, const __FlashStringHelper *expr)
+void Logging::Assert(const char func[], const __FlashStringHelper * file, int lineno, const __FlashStringHelper *expr)
 {
 	 // transmit diagnostic informations through serial link.
 	_p_output_stream->print(F("ASSERTION FAILED : "));
@@ -76,8 +76,8 @@ void Logging::Assert(const  char * func, const __FlashStringHelper * file, int l
 	abort();
 }
 
-void Logging::Error(char* msg, ...){
-	if (LOG_LEVEL_ERRORS <= _level) {
+void Logging::Error(const char msg[], ...){
+	if (LOG_LEVEL_ERRORS <= _u8_logLevel) {
 		_p_output_stream->print (ERROR_STR);
 		va_list args;
 		va_start(args, msg);
@@ -88,7 +88,7 @@ void Logging::Error(char* msg, ...){
 }
 
 void Logging::Error(const __FlashStringHelper * msg, ...){
-	if (LOG_LEVEL_ERRORS <= _level) {
+	if (LOG_LEVEL_ERRORS <= _u8_logLevel) {
 		_p_output_stream->print (ERROR_STR);
 		va_list args;
 		va_start(args, msg);
@@ -99,7 +99,7 @@ void Logging::Error(const __FlashStringHelper * msg, ...){
 }
 
 void Logging::Error(char errorId, const __FlashStringHelper * file, int line){
-	if (LOG_LEVEL_ERRORS <= _level) {
+	if (LOG_LEVEL_ERRORS <= _u8_logLevel) {
 		_p_output_stream->print (ERROR_STR);
 		_p_output_stream->print(F("id = "));
 		_p_output_stream->print((int)errorId, 10);
@@ -113,7 +113,7 @@ void Logging::Error(char errorId, const __FlashStringHelper * file, int line){
 }
 
 void Logging::Error(char errorId, const __FlashStringHelper * file, int line, const __FlashStringHelper * argsFormat, ...){
-	if (LOG_LEVEL_ERRORS <= _level) {
+	if (LOG_LEVEL_ERRORS <= _u8_logLevel) {
 		_p_output_stream->print (ERROR_STR);
 		_p_output_stream->print(F("id = "));
 		_p_output_stream->print((int)errorId, 10);
@@ -129,8 +129,8 @@ void Logging::Error(char errorId, const __FlashStringHelper * file, int line, co
 		_p_output_stream->flush();
 	}
 }
-void Logging::Info(char* msg, ...){
-	if (LOG_LEVEL_INFOS <= _level) {
+void Logging::Info(const char msg[], ...){
+	if (LOG_LEVEL_INFOS <= _u8_logLevel) {
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
@@ -138,7 +138,7 @@ void Logging::Info(char* msg, ...){
 }
 
 void Logging::Info(const __FlashStringHelper * msg, ...){
-	if (LOG_LEVEL_INFOS <= _level) {
+	if (LOG_LEVEL_INFOS <= _u8_logLevel) {
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
@@ -146,7 +146,7 @@ void Logging::Info(const __FlashStringHelper * msg, ...){
 }
 
 void Logging::InfoLn(const __FlashStringHelper * msg, ...){
-	if (LOG_LEVEL_INFOS <= _level) {
+	if (LOG_LEVEL_INFOS <= _u8_logLevel) {
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
@@ -156,22 +156,22 @@ void Logging::InfoLn(const __FlashStringHelper * msg, ...){
 }
 
 void Logging::InfoStr(const __FlashStringHelper * msg){
-	if (LOG_LEVEL_INFOS <= _level) {
+	if (LOG_LEVEL_INFOS <= _u8_logLevel) {
 		_p_output_stream->print(msg);
 		_p_output_stream->flush();
 	}
 }
 
 void Logging::InfoStrLn(const __FlashStringHelper * msg){
-	if (LOG_LEVEL_INFOS <= _level) {
+	if (LOG_LEVEL_INFOS <= _u8_logLevel) {
 		_p_output_stream->print(msg);
 		_p_output_stream->print(BL);
 		_p_output_stream->flush();
 	}
 }
 
-void Logging::Debug(char* msg, ...){
-	if (LOG_LEVEL_DEBUG <= _level) {
+void Logging::Debug(const char msg[], ...){
+	if (LOG_LEVEL_DEBUG <= _u8_logLevel) {
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
@@ -179,7 +179,7 @@ void Logging::Debug(char* msg, ...){
 }
 
 void Logging::DebugLn(const __FlashStringHelper * msg, ...){
-	if (LOG_LEVEL_DEBUG <= _level) {
+	if (LOG_LEVEL_DEBUG <= _u8_logLevel) {
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
@@ -189,7 +189,7 @@ void Logging::DebugLn(const __FlashStringHelper * msg, ...){
 }
 
 void Logging::Debug(const __FlashStringHelper * msg, ...){
-	if (LOG_LEVEL_DEBUG <= _level) {
+	if (LOG_LEVEL_DEBUG <= _u8_logLevel) {
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
@@ -197,22 +197,22 @@ void Logging::Debug(const __FlashStringHelper * msg, ...){
 }
 
 void Logging::DebugStr(const __FlashStringHelper * msg){
-	if (LOG_LEVEL_DEBUG <= _level) {
+	if (LOG_LEVEL_DEBUG <= _u8_logLevel) {
 		_p_output_stream->print(msg);
 		_p_output_stream->flush();
 	}
 }
 
 void Logging::DebugStrLn(const __FlashStringHelper * msg){
-	if (LOG_LEVEL_DEBUG <= _level) {
+	if (LOG_LEVEL_DEBUG <= _u8_logLevel) {
 		_p_output_stream->print(msg);
 		_p_output_stream->print(BL);
 		_p_output_stream->flush();
 	}
 }
 
-void Logging::Verbose(char* msg, ...){
-	if (LOG_LEVEL_VERBOSE <= _level) {
+void Logging::Verbose(const char msg[], ...){
+	if (LOG_LEVEL_VERBOSE <= _u8_logLevel) {
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
@@ -220,7 +220,7 @@ void Logging::Verbose(char* msg, ...){
 }
 
 void Logging::Verbose(const __FlashStringHelper * msg, ...){
-	if (LOG_LEVEL_VERBOSE <= _level) {
+	if (LOG_LEVEL_VERBOSE <= _u8_logLevel) {
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
@@ -228,7 +228,7 @@ void Logging::Verbose(const __FlashStringHelper * msg, ...){
 }
 
 void Logging::VerboseLn(const __FlashStringHelper * msg, ...){
-	if (LOG_LEVEL_VERBOSE <= _level) {
+	if (LOG_LEVEL_VERBOSE <= _u8_logLevel) {
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
@@ -238,14 +238,14 @@ void Logging::VerboseLn(const __FlashStringHelper * msg, ...){
 }
 
 void Logging::VerboseStr(const __FlashStringHelper * msg){
-	if (LOG_LEVEL_VERBOSE <= _level) {
+	if (LOG_LEVEL_VERBOSE <= _u8_logLevel) {
 		_p_output_stream->print(msg);
 		_p_output_stream->flush();
 	}
 }
 
 void Logging::VerboseStrLn(const __FlashStringHelper * msg){
-	if (LOG_LEVEL_VERBOSE <= _level) {
+	if (LOG_LEVEL_VERBOSE <= _u8_logLevel) {
 		_p_output_stream->print(msg);
 		_p_output_stream->print(BL);
 		_p_output_stream->flush();
