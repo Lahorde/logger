@@ -164,7 +164,7 @@ void Logging::printArg(const char arg_s8Char, va_list args) {
 		*_p_output_stream << std::hex << va_arg( args, int );
 	}
 	if( arg_s8Char == 'b' ) {
-		*_p_output_stream << std::bitset<sizeof(int)>(va_arg( args, int ));
+		*_p_output_stream << std::bitset<sizeof(int)*8>(va_arg( args, int ));
 	}
 	if( arg_s8Char == 'B' ) {
 		*_p_output_stream << "0b";

@@ -18,6 +18,7 @@
 void logger_test(void){
 	LOG_INIT_STREAM(LOG_LEVEL_VERBOSE, &cout);
 	LOG_ERROR("this is an error log - display %d as binary %B", 0xFFFF, 0xFFFF);
+	LOG_ERROR("this is an error log - display %d as binary %b", 0xFFFF, 0xFFFF);
 	LOG_INFO("this is an info log - display %d as hexa %X", 0xFFFF, 0xFFFF);
 	LOG_DEBUG("this is a debug log - display a long %l", -2111222333);
 	LOG_VERBOSE("this is a verbose log - display %d as binary %b", 0xFFFF, 0xFFFF);
