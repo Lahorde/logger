@@ -2,14 +2,13 @@
 
 ### Overview
 
-Arduino logging library, supports a variable list of arguments and its format specifiers. 
+Logging library, supports a variable list of arguments and its format specifiers. 
 Log level can be modified according to user needs. 
 Using preprocessor logging macros defined in logger.h reduces code size depending on selected logger level.
 
-#### Implementation supported platform
+#### Supported targets
 
-  * Arduino Uno - ATmega328p
-  * Jeenode µ - ATtiny 84
+  * MCU having Arduino software (Stream, Serial...)
 
 ####Log levels
  * LOG_LEVEL_NOOUTPUT 
