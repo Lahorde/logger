@@ -63,7 +63,9 @@ using namespace std;
 #define CR "\r\n"
 #define LOGGING_VERSION 1
 
+#ifndef F
 #define F(string_literal) (string_literal)
+#endif 
 
 class Logging {
 private:
