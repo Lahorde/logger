@@ -1,29 +1,33 @@
-## logging
+# Logging library
 
-### Overview
-
+## Overview
 Logging library, supports a variable list of arguments and its format specifiers. 
 Log level can be modified according to user needs. 
 Using preprocessor logging macros defined in logger.h reduces code size depending on selected logger level.
 
-#### Supported targets
+## Supported targets
 
-  * MCU having Arduino software (Stream, Serial...)
+  * Arduino compatible (logger needs Stream, Serial...)
 
-####Log levels
+## Log levels
  * LOG_LEVEL_NOOUTPUT 
- * LOG_LEVEL_ERRORS 1
- * LOG_LEVEL_INFOS 2
- * LOG_LEVEL_DEBUG 3
- * LOG_LEVEL_VERBOSE 4
+ * LOG_LEVEL_ERRORS 
+ * LOG_LEVEL_INFOS 
+ * LOG_LEVEL_DEBUG 
+ * LOG_LEVEL_VERBOSE 
 
-#### Code snippet
+## Code snippet
 Log using a software serial stream.
 
-    #include <logger.h>
-    #include <AltSoftSerial.h>
-    
+Define log level according to your needs in logger_config.h :
+
+    /** Global defined must be defined here  */
     #define LOG_LEVEL LOG_LEVEL_DEBUG
+
+Initialize logger with an initialized stream :
+
+    #include <logger_config.h>
+    #include <AltSoftSerial.h>
     
     static AltSoftSerial altSerial;
 
@@ -32,6 +36,6 @@ Log using a software serial stream.
         Serial.begin(115200);
         altSerial.begin(9600);
         
-        LOG_INIT(LOG_LEVEL, &altSerial);
-	    LOG_INFO(F("application started ! \n"));
+        LOG_INIT(&altSerial);
+        LOG_INFO(F("application started ! \n"));
     }

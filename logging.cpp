@@ -198,6 +198,16 @@ void Logging::DebugLn(const __FlashStringHelper * msg, ...){
 	}
 }
 
+void Logging::DebugLn(const char msg[], ...){
+	if (LOG_LEVEL_DEBUG <= _u8_logLevel) {
+		va_list args;
+		va_start(args, msg);
+		print(msg,args);
+		_p_output_stream->print(BL);
+		_p_output_stream->flush();
+	}
+}
+
 void Logging::Debug(const __FlashStringHelper * msg, ...){
 	if (LOG_LEVEL_DEBUG <= _u8_logLevel) {
 		va_list args;
