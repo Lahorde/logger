@@ -82,6 +82,7 @@ void Logging::Error(const char msg[], ...){
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
+		va_end(args);
 		_p_output_stream->print(BL);
 		_p_output_stream->flush();
 	}
@@ -93,6 +94,7 @@ void Logging::Error(const __FlashStringHelper * msg, ...){
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
+		va_end(args);
 		_p_output_stream->print(BL);
 		_p_output_stream->flush();
 	}
@@ -125,6 +127,7 @@ void Logging::Error(char errorId, const __FlashStringHelper * file, int line, co
 		va_list args;
 		va_start(args, argsFormat);
 		print(argsFormat,args);
+		va_end(args);
 		_p_output_stream->print(BL);
 		_p_output_stream->flush();
 	}
@@ -134,6 +137,7 @@ void Logging::Info(const char msg[], ...){
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
+		va_end(args);
 	}
 }
 
@@ -142,6 +146,7 @@ void Logging::Info(const __FlashStringHelper * msg, ...){
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
+		va_end(args);
 	}
 }
 
@@ -150,6 +155,7 @@ void Logging::InfoLn(const char msg[], ...){
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
+		va_end(args);
 		_p_output_stream->print(BL);
 		_p_output_stream->flush();
 	}
@@ -160,6 +166,7 @@ void Logging::InfoLn(const __FlashStringHelper * msg, ...){
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
+		va_end(args);
 		_p_output_stream->print(BL);
 		_p_output_stream->flush();
 	}
@@ -185,6 +192,7 @@ void Logging::Debug(const char msg[], ...){
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
+		va_end(args);
 	}
 }
 
@@ -193,6 +201,7 @@ void Logging::DebugLn(const __FlashStringHelper * msg, ...){
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
+		va_end(args);
 		_p_output_stream->print(BL);
 		_p_output_stream->flush();
 	}
@@ -203,6 +212,7 @@ void Logging::DebugLn(const char msg[], ...){
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
+		va_end(args);
 		_p_output_stream->print(BL);
 		_p_output_stream->flush();
 	}
@@ -213,6 +223,7 @@ void Logging::Debug(const __FlashStringHelper * msg, ...){
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
+		va_end(args);
 	}
 }
 
@@ -236,6 +247,7 @@ void Logging::Verbose(const char msg[], ...){
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
+		va_end(args);
 	}
 }
 
@@ -244,6 +256,7 @@ void Logging::Verbose(const __FlashStringHelper * msg, ...){
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
+		va_end(args);
 	}
 }
 
@@ -252,6 +265,7 @@ void Logging::VerboseLn(const __FlashStringHelper * msg, ...){
 		va_list args;
 		va_start(args, msg);
 		print(msg,args);
+		va_end(args);
 		_p_output_stream->print(BL);
 		_p_output_stream->flush();
 	}
