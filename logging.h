@@ -44,168 +44,113 @@
  * Revision History:
  * TODO_revision history
  *****************************************************************************/
-
 #ifndef LOGGING_H
 #define LOGGING_H
 
-#include <inttypes.h>
-#include <stdarg.h>
-#include <WString.h>
-#include "Stream.h"
-#if defined(ARDUINO) && ARDUINO >= 100
-	#include "Arduino.h"
-#else
-	#include "WProgram.h"
+#ifdef __cplusplus
+extern "C"
+{
 #endif
+/**************************************************************************
+ * Include Files
+ **************************************************************************/
+#include <stdint.h>
 
+/**************************************************************************
+ * Manifest Constants
+ **************************************************************************/
 #define LOG_LEVEL_NOOUTPUT 0
 #define LOG_LEVEL_ERRORS 1
 #define LOG_LEVEL_INFOS 2
 #define LOG_LEVEL_DEBUG 3
 #define LOG_LEVEL_VERBOSE 4
 
-#define CR "\r\n"
-#define LOGGING_VERSION 1
+/**************************************************************************
+ * Type Definitions
+ **************************************************************************/
 
-class Logging {
-private:
-	Stream*  _p_output_stream;
-    uint8_t _u8_logLevel;
-public:
-    /*! 
-	 * default Constructor
-	 */
-    Logging(): _p_output_stream(&Serial), _u8_logLevel(LOG_LEVEL_NOOUTPUT){} ;
-	
+/**************************************************************************
+ * Global variables
+ **************************************************************************/
 
-    /**
-     * Assert given expression. Abort in case of failure
-     * @param func
-     * @param file
-     * @param lineno
-     * @param failedexpr
-     */
-    void Assert(const char func[], const __FlashStringHelper * file, int lineno, const __FlashStringHelper *expr);
+/**************************************************************************
+ * Macros
+ **************************************************************************/
 
-    /**
-     * Assert given expression. Abort in case of failure
-     * @param func
-     * @param file
-     * @param lineno
-     * @param failedexpr
-     */
-    void Assert(const char func[], const char file[], int lineno, const char expr[]);
+/**************************************************************************
+ * Global Functions Declarations
+ **************************************************************************/
 
-    /** 
-	* Initializing, must be called as first.
-	* Given stream must have been initialized.
-	* e.g : for serial begin() method must have been called
-	* \param void
-	* \return void
-	*
-	*/
-	void Init(int level = LOG_LEVEL_INFOS, Stream*  _p_output_stream = &Serial);
+/**
+ * Initiale logigng
+ * \param void
+ * \return void
+ *
+ */
+void Logging_Init(uint8_t level);
 
-	
-    /**
-	* Output an error message. Output message contains
-	* ERROR: followed by original msg
-	* Error messages are printed out, at every loglevel
-	* except 0 ;-)
-	* \param msg format string to output
-	* \param ... any number of variables
-	* \return void
-	*/
-    void Error(const char msg[], ...);
-    void Error( const __FlashStringHelper * msg, ...);
+/**
+ * Assert given expression. Abort in case of failure
+ * @param func
+ * @param file
+ * @param lineno
+ * @param failedexpr
+ */
+void Logging_Assert(const char* func, const char* file, int lineno, const char* expr);
 
-    /**
-	* Output an error message. Output message contains
-	* ERROR: followed by error id, file, line locations
-	* Error messages are printed out, at every loglevel
-	* except 0 ;-)
-	* \param errorId id of error according to file location
-	* \param file where occurred error id of error according to file location
-	* \param line in file where occurred error
-	* \return void
-	*/
-    void Error(char errorId, const __FlashStringHelper *, int line);
 
-    /**
-	* Output an error message. Output message contains
-	* ERROR: followed by error id, file, line locations
-	* and error arguments
-	* Error messages are printed out, at every loglevel
-	* except 0 ;-)
-	* \param errorId id of error according to file location
-	* \param file where occurred error id of error according to file location
-	* \param line in file where occurred error
-	* \param argsFormat argument format
-	* \param ... any number of variables
-	* \return void
-	*/
-    void Error(char errorId, const __FlashStringHelper *, int line, const __FlashStringHelper * argsFormat, ...);
+/**
+ * Output an error message. Output message contains
+ * ERROR: followed by original msg
+ * Error messages are printed out, at every loglevel
+ * except 0 ;-)
+ * \param msg format string to output
+ * \param ... any number of variables
+ * \return void
+ */
+void Logging_Error(const char msg[], ...);
 
-    /**
-	* Output an info message. Output message contains
-	* Info messages are printed out at l
-	* loglevels >= LOG_LEVEL_INFOS
-	*
-	* \param msg format string to output
-	* \param ... any number of variables
-	* \return void
-	*/
+/**
+ * Output an info message. Output message contains
+ * Info messages are printed out at l
+ * loglevels >= LOG_LEVEL_INFOS
+ *
+ * \param msg format string to output
+ * \param ... any number of variables
+ * \return void
+ */
 
-   void Info(const char msg[], ...);
-   void Info( const __FlashStringHelper * msg, ...);
-   void InfoLn(const char msg[], ...);
-   void InfoLn( const __FlashStringHelper * msg, ...);
-   void InfoStr(const __FlashStringHelper * msg);
-   void InfoStrLn(const __FlashStringHelper * msg);
-	
-    /**
-	* Output an debug message. Output message contains
-	* Debug messages are printed out at l
-	* loglevels >= LOG_LEVEL_DEBUG
-	*
-	* \param msg format string to output
-	* \param ... any number of variables
-	* \return void
-	*/
+void Logging_Info(const char* msg, ...);
+void Logging_InfoLn(const char* msg, ...);
 
-    void Debug(const char msg[], ...);
-    void Debug( const __FlashStringHelper * msg, ...);
-    void DebugLn( const __FlashStringHelper * msg, ...);
-    void DebugLn(const char msg[], ...);
-    void DebugStr(const __FlashStringHelper * msg);
-    void DebugStrLn(const __FlashStringHelper * msg);
-	
-    /**
-	* Output an verbose message. Output message contains
-	* Debug messages are printed out at l
-	* loglevels >= LOG_LEVEL_VERBOSE
-	*
-	* \param msg format string to output
-	* \param ... any number of variables
-	* \return void
-	*/
+/**
+ * Output an debug message. Output message contains
+ * Debug messages are printed out at l
+ * loglevels >= LOG_LEVEL_DEBUG
+ *
+ * \param msg format string to output
+ * \param ... any number of variables
+ * \return void
+ */
 
-    void Verbose(const char msg[], ...);
-    void Verbose( const __FlashStringHelper * msg, ...);
-    void VerboseLn( const __FlashStringHelper * msg, ...);
-    void VerboseStr(const __FlashStringHelper * msg);
-    void VerboseStrLn(const __FlashStringHelper * msg);
+void Logging_Debug(const char* msg, ...);
+void Logging_DebugLn(const char* msg, ...);
 
-    
-private:
-    void print(const char format[], va_list args);
-    void print(const __FlashStringHelper * arg_ps8FlashFormatfor, va_list args);
-    void printArg(char arg_s8Char, va_list& args);
-};
+/**
+ * Output an verbose message. Output message contains
+ * Debug messages are printed out at l
+ * loglevels >= LOG_LEVEL_VERBOSE
+ *
+ * \param msg format string to output
+ * \param ... any number of variables
+ * \return void
+ */
 
-extern Logging Log;
+void Logging_Verbose(const char msg[], ...);
+void Logging_VerboseLn( const char * msg, ...);
+
+#ifdef __cplusplus
+}
 #endif
 
-
-
-
+#endif /* LOGGING_H */
